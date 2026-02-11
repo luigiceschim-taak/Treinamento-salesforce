@@ -30,5 +30,12 @@
 
 //////////////////////////////////////////////////
 
+Conta c1 = new ContaCorrente('carlo', 123);
+Conta c2 = new ContaPoupanca('ana', 124);
 
+c1.depositar(125.00);
+c2.depositar(152.00);
+
+System.debug(c1);
+System.debug(c2);
 
