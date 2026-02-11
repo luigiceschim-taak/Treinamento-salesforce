@@ -62,11 +62,13 @@ CalculadoraDeImpostos calculadora = new CalculadoraDeImpostos();
 List<Tributavel> t = new List<Tributavel>();
 
 ContaCorrente cc1 = new ContaCorrente('luca',11);
+SeguroDeVida ss = new SeguroDeVida();
 
 
 cc1.depositar(1200.00);
 
 t.add(cc1);
+t.add(ss);
 
 
 
