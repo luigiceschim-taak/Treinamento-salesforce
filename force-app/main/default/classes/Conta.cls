@@ -1,8 +1,8 @@
-public with sharing class Conta {
+public with sharing abstract class Conta {
     
-    private Integer numeroDaConta;
-    private String nomeDoTitular;
-    private Decimal saldo;
+    protected Integer numeroDaConta;
+    protected String nomeDoTitular;
+    protected Decimal saldo;
 
     public Conta(String nomeDoTitular, Integer numeroDaConta) {
         this.nomeDoTitular = nomeDoTitular;
@@ -10,29 +10,11 @@ public with sharing class Conta {
         this.saldo = 0;
     }
 
-    public void depositar(Decimal valor) {
-        if (valor > 0) {
-            this.saldo += valor;
-        }else {
-            System.debug('Valor deve ser maior que zero');
-        }
-    }
+    public abstract void depositar(Decimal valor);
+
+    public abstract Decimal calcularTaxa();
 
     
-
-    public String getNomeDoTitular() {
-        return nomeDoTitular;
-    }
-
-    public Integer getNumeroDaConta() {
-        return numeroDaConta;
-    }
-
-    
-    
-    public Decimal getSaldo() {
-        return saldo;
-    }
 
 
     
