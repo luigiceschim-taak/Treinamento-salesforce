@@ -36,6 +36,7 @@ Conta c3 = new ContaPoupanca('roberto', 125);
 Conta c4 = new ContaPoupanca('lorenzo', 126);
 Conta c5 = new ContaPoupanca('virtu', 127);
 
+
 c1.depositar(125.00);
 c2.depositar(152.00);
 c3.depositar(12.34);
@@ -56,3 +57,17 @@ cadastro.adicionarConta(c5);
 
 System.debug(cadastro.calcularTotaDeTaxa());
 
+CalculadoraDeImpostos calculadora = new CalculadoraDeImpostos();
+
+List<Tributavel> t = new List<Tributavel>();
+
+ContaCorrente cc1 = new ContaCorrente('luca',11);
+
+
+cc1.depositar(1200.00);
+
+t.add(cc1);
+
+
+
+System.debug(calculadora.calcularImposto(t));

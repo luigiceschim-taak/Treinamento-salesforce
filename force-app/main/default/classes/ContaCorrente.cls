@@ -1,4 +1,4 @@
-public with sharing class ContaCorrente extends Conta {
+public with sharing class ContaCorrente extends Conta implements Tributavel {
     
     public ContaCorrente(String nomeDoTitular, Integer numeroDaConta) {
         super(nomeDoTitular, numeroDaConta);
@@ -17,6 +17,10 @@ public with sharing class ContaCorrente extends Conta {
 
     public override Decimal calcularTaxa() {
         return this.saldo * 0.01;
+    }
+
+    public Decimal calcularImposto() {
+        return this.saldo * 0.02;
     }
     
     
