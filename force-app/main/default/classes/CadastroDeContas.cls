@@ -14,6 +14,16 @@ public with sharing class CadastroDeContas {
         System.debug(contas);
         return contas;
     }
+
+    public Decimal calcularTotaDeTaxa() {
+        Decimal total = 0;
+        for (Conta conta : contas) {
+            total += conta.calcularTaxa();
+        }
+
+        
+        return total;
+    }
     
     
 }
