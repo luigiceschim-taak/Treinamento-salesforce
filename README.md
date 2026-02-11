@@ -16,3 +16,19 @@ The `sfdx-project.json` file contains useful configuration information for your 
 - [Salesforce CLI Setup Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm)
 - [Salesforce DX Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_intro.htm)
 - [Salesforce CLI Command Reference](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference.htm)
+
+
+ # Apex Training — Projeto de Exemplo (Salesforce DX)
+
+Pequeno projeto de treinamento em Apex com exemplos de cadastro de contas, cálculo de impostos e seguro de vida.
+
+**Resumo**
+- Contém classes de domínio, uma interface `Tributavel`, scripts de Apex e consultas SOQL.
+- Código fonte em `force-app/main/default/classes`; scripts em `scripts/`.
+
+**Quick Start (objetivo)**
+
+**Pré-requisitos**
+- **CLI:** Salesforce CLI (`sfdx`) instalado.
+- **Acesso:** Dev Hub habilitado (para Scratch Orgs) ou acesso à org alvo.
+- **Código:** Projeto clonado e classes em `force-app/main/default/classes`.
