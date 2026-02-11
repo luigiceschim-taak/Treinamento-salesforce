@@ -10,6 +10,14 @@ public with sharing class Conta {
         this.saldo = 0;
     }
 
+    public void depositar(Decimal valor) {
+        if (valor > 0) {
+            this.saldo += valor;
+        }else {
+            System.debug('Valor deve ser maior que zero');
+        }
+    }
+
     
 
     public String getNomeDoTitular() {
