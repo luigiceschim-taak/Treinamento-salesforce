@@ -1,11 +1,34 @@
-public with sharing abstract class Conta {
+public with sharing class Conta {
     
-    protected String nome;
+    private Integer numeroDaConta;
+    private String nomeDoTitular;
+    private Decimal saldo;
 
-    public Conta(String nome) {
-        this.nome = nome;
+    public Conta(String nomeDoTitular, Integer numeroDaConta) {
+        this.nomeDoTitular = nomeDoTitular;
+        this.numeroDaConta = numeroDaConta;
+        this.saldo = 0;
+    }
+
+    
+
+    public String getNomeDoTitular() {
+        return nomeDoTitular;
+    }
+
+    public Integer getNumeroDaConta() {
+        return numeroDaConta;
+    }
+
+    
+    
+    public Decimal getSaldo() {
+        return saldo;
     }
 
 
     
+
+
+
 }
