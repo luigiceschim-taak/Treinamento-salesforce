@@ -122,6 +122,15 @@ numeroDeContas.add(cp1.getNumeroDaConta());
 System.debug(numeroDeContas);
 
 
+Map<Integer, Conta> mapaDeContas = new Map<Integer, Conta>();
+mapaDeContas.put(c1.getNumeroDaConta(), c1);
+mapaDeContas.put(c2.getNumeroDaConta(), c2);
+mapaDeContas.put(cp1.getNumeroDaConta(), cp1);
+
+// busca O(1)
+System.debug(mapaDeContas.get(11));
+
+
 
 
 
