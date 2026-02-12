@@ -70,6 +70,8 @@ cc1.depositar(1200.00);
 t.add(cc1);
 t.add(ss);
 
-
+/////////////////////////////////////////////
 
 System.debug(calculadora.calcularImposto(t));
+
+System.debug('Total de contas criadas: ' + Conta.totalDeContas);
