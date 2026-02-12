@@ -91,7 +91,7 @@
 
 Conta c1 = new ContaCorrente('luca',11);
 Conta c2 = new ContaCorrente('enzo',12);
-Conta cp1 = new ContaPoupanca('luca',11);
+Conta cp1 = new ContaPoupanca('luca',15);
 
 c1.depositar(1000.00);
 c2.depositar(1000.00);
@@ -108,6 +108,23 @@ for(Conta c : contas){
     taxa += c.calcularTaxa();
 }
 System.debug(taxa);
+
+
+Set<Integer> numeroDeContas = new Set<Integer>();
+
+numeroDeContas.add(c1.getNumeroDaConta());
+//duplicata
+numeroDeContas.add(c1.getNumeroDaConta());
+
+numeroDeContas.add(c2.getNumeroDaConta());
+numeroDeContas.add(cp1.getNumeroDaConta());
+
+System.debug(numeroDeContas);
+
+
+
+
+
 
 
 

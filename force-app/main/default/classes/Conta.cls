@@ -12,6 +12,9 @@ public with sharing abstract class Conta {
         Conta.totalDeContas++;
     }
 
+    public virtual Integer getNumeroDaConta() {
+        return this.numeroDaConta;
+    }
 
     public virtual void depositar(Decimal valor){
         validadorFinanceiro.validarValor(valor);

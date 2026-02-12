@@ -5,6 +5,10 @@ public with sharing class ContaPoupanca extends Conta {
         super(nomeDoTitular, numeroDaConta);
     }
 
+    public override Integer getNumeroDaConta() {
+        return this.numeroDaConta;
+    }
+
     public override void depositar(Decimal valor) {
         if (valor > 0) {
             this.saldo += valor;

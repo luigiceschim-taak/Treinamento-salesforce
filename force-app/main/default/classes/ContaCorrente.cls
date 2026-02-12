@@ -5,6 +5,9 @@ public with sharing class ContaCorrente extends Conta implements Tributavel {
     }
 
 
+    public override Integer getNumeroDaConta() {
+        return this.numeroDaConta;
+    }
 
     public override void depositar(Decimal valor) {
         if (valor > 0) {
