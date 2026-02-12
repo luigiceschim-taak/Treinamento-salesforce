@@ -14,7 +14,11 @@ public with sharing abstract class Conta {
 
 
     public virtual void depositar(Decimal valor){
-        validadorFinanceiro.validarValor(100);
+        validadorFinanceiro.validarValor(valor);
+    }
+
+    public virtual void sacar(Decimal valor){
+        validadorFinanceiro.validarValor(valor);
     }
 
     

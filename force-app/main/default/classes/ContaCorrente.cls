@@ -15,6 +15,16 @@ public with sharing class ContaCorrente extends Conta implements Tributavel {
         }
     }
 
+    public override void sacar(Decimal valor) {
+
+        if (valor > this.saldo) {
+            throw new SaldoInsuficienteException('Saldo insuficiente para saque de: ' + valor);
+        } else {
+            this.saldo -= valor;
+            System.debug('Valor sacado com sucesso' + this.saldo);
+        }
+    }
+
     public override Decimal calcularTaxa() {
         return this.saldo * 0.01;
     }
