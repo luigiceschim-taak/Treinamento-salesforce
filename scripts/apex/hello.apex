@@ -91,7 +91,7 @@
 
 Conta c1 = new ContaCorrente('luca',11);
 Conta c2 = new ContaCorrente('enzo',12);
-Conta cp1 = new ContaPoupanca('luca',15);
+Conta cp1 = new ContaPoupanca('valeria',15);
 
 c1.depositar(1000.00);
 c2.depositar(1000.00);
@@ -119,6 +119,11 @@ numeroDeContas.add(c1.getNumeroDaConta());
 numeroDeContas.add(c2.getNumeroDaConta());
 numeroDeContas.add(cp1.getNumeroDaConta());
 
+numeroDeContas.add(22);
+numeroDeContas.add(56);
+numeroDeContas.add(90);
+
+
 System.debug(numeroDeContas);
 
 
@@ -129,6 +134,23 @@ mapaDeContas.put(cp1.getNumeroDaConta(), cp1);
 
 // busca O(1)
 System.debug(mapaDeContas.get(11));
+
+
+//////////////////
+
+// modulo 19.4
+
+System.debug('------DEBUG CRUZANDO COLEÇÕES-------');
+
+System.debug('Set de números de contas: ' + numeroDeContas);
+
+for (Integer n : numeroDeContas) {
+    System.debug(mapaDeContas.get(n));
+    
+}
+
+
+
 
 
 
