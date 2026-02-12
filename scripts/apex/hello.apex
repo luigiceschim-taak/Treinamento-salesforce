@@ -75,3 +75,10 @@ t.add(ss);
 System.debug(calculadora.calcularImposto(t));
 
 System.debug('Total de contas criadas: ' + Conta.totalDeContas);
+
+////////////////////////
+
+validadorFinanceiro.validarValor(100.00);
+
+
+
