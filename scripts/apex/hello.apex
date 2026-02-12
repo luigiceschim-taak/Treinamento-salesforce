@@ -80,5 +80,7 @@ System.debug('Total de contas criadas: ' + Conta.totalDeContas);
 
 validadorFinanceiro.validarValor(100.00);
 
+c1.depositar(100.00);
+
 
 
