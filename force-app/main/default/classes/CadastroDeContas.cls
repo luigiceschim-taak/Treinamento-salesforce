@@ -1,23 +1,24 @@
 public with sharing class CadastroDeContas {
     
-    private List<Conta> contas;
+    private final BancoDeDadosConta bancoDeDados;
 
-    public CadastroDeContas() {
-        contas = new List<Conta>();
+
+    public CadastroDeContas(BancoDeDadosConta bancoDeDados) {
+        this.bancoDeDados = bancoDeDados;
     }
 
     public void adicionarConta(Conta conta) {
-        contas.add(conta);
+        bancoDeDados.adicionarConta(conta);
     }
 
     public List<Conta> getContas() {
-        System.debug(contas);
-        return contas;
+        return bancoDeDados.getContas();
     }
 
+   
     public Decimal calcularTotaDeTaxa() {
         Decimal total = 0;
-        for (Conta conta : contas) {
+        for (Conta conta : bancoDeDados.getContas()) {
             total += conta.calcularTaxa();
         }
 

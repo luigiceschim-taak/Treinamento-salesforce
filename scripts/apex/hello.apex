@@ -89,65 +89,87 @@
 
 //modulo 19
 
-Conta c1 = new ContaCorrente('luca',11);
-Conta c2 = new ContaCorrente('enzo',12);
-Conta cp1 = new ContaPoupanca('valeria',15);
+// Conta c1 = new ContaCorrente('luca',11);
+// Conta c2 = new ContaCorrente('enzo',12);
+// Conta cp1 = new ContaPoupanca('valeria',15);
 
-c1.depositar(1000.00);
-c2.depositar(1000.00);
-cp1.depositar(1000.00);
-
-
-List<Conta> contas = new List<Conta>();
-contas.add(c1);
-contas.add(c2);
-contas.add(cp1);
-
-Decimal taxa = 0.00;
-for(Conta c : contas){
-    taxa += c.calcularTaxa();
-}
-System.debug(taxa);
+// c1.depositar(1000.00);
+// c2.depositar(1000.00);
+// cp1.depositar(1000.00);
 
 
-Set<Integer> numeroDeContas = new Set<Integer>();
+// List<Conta> contas = new List<Conta>();
+// contas.add(c1);
+// contas.add(c2);
+// contas.add(cp1);
 
-numeroDeContas.add(c1.getNumeroDaConta());
-//duplicata
-numeroDeContas.add(c1.getNumeroDaConta());
-
-numeroDeContas.add(c2.getNumeroDaConta());
-numeroDeContas.add(cp1.getNumeroDaConta());
-
-numeroDeContas.add(22);
-numeroDeContas.add(56);
-numeroDeContas.add(90);
+// Decimal taxa = 0.00;
+// for(Conta c : contas){
+//     taxa += c.calcularTaxa();
+// }
+// System.debug(taxa);
 
 
-System.debug(numeroDeContas);
+// Set<Integer> numeroDeContas = new Set<Integer>();
+
+// numeroDeContas.add(c1.getNumeroDaConta());
+// //duplicata
+// numeroDeContas.add(c1.getNumeroDaConta());
+
+// numeroDeContas.add(c2.getNumeroDaConta());
+// numeroDeContas.add(cp1.getNumeroDaConta());
+
+// numeroDeContas.add(22);
+// numeroDeContas.add(56);
+// numeroDeContas.add(90);
 
 
-Map<Integer, Conta> mapaDeContas = new Map<Integer, Conta>();
-mapaDeContas.put(c1.getNumeroDaConta(), c1);
-mapaDeContas.put(c2.getNumeroDaConta(), c2);
-mapaDeContas.put(cp1.getNumeroDaConta(), cp1);
-
-// busca O(1)
-System.debug(mapaDeContas.get(11));
+// System.debug(numeroDeContas);
 
 
-//////////////////
+// Map<Integer, Conta> mapaDeContas = new Map<Integer, Conta>();
+// mapaDeContas.put(c1.getNumeroDaConta(), c1);
+// mapaDeContas.put(c2.getNumeroDaConta(), c2);
+// mapaDeContas.put(cp1.getNumeroDaConta(), cp1);
 
-// modulo 19.4
+// // busca O(1)
+// System.debug(mapaDeContas.get(11));
 
-System.debug('------DEBUG CRUZANDO COLEÇÕES-------');
 
-System.debug('Set de números de contas: ' + numeroDeContas);
+// //////////////////
 
-for (Integer n : numeroDeContas) {
-    System.debug(mapaDeContas.get(n));
+// // modulo 19.4
+
+// System.debug('------DEBUG CRUZANDO COLEÇÕES-------');
+
+// System.debug('Set de números de contas: ' + numeroDeContas);
+
+// for (Integer n : numeroDeContas) {
+//     System.debug(mapaDeContas.get(n));
     
-}
+// }
+
+
+//modulo de Estudo.
+
+CadastroDeContas cadastro = new CadastroDeContas(new BancoDeDadosEmMemoria());
+
+Conta c1 = new ContaCorrente('luca',11);
+c1.depositar(100.00);
+Conta c2 = new ContaCorrente('enzo',12);
+c2.depositar(100.00);
+
+Conta cp1 = new ContaPoupanca('valeria',15);  
+Conta cp2 = new ContaPoupanca('roberto',16);
+
+cadastro.adicionarConta(c1);
+cadastro.adicionarConta(c2);
+cadastro.adicionarConta(cp1);
+cadastro.adicionarConta(cp2);
+
+System.debug(cadastro.getContas());
+
+System.debug(cadastro.calcularTotaDeTaxa());
 
 
 

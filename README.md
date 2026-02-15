@@ -1,38 +1,31 @@
-# Salesforce DX Project: Next Steps
 
-Now that you’ve created a Salesforce DX project, what’s next? Here are some documentation resources to get you started.
+# Apex Training — Projeto de Exemplo (Salesforce DX)
 
-## How Do You Plan to Deploy Your Changes?
+Projeto de treinamento em Apex demonstrando conceitos de orientação a objetos, exceções, interfaces e polimorfismo, com exemplos de cadastro de contas, cálculo de taxas e impostos, e uso de serviços e validações.
 
-Do you want to deploy a set of changes, or create a self-contained application? Choose a [development model](https://developer.salesforce.com/tools/vscode/en/user-guide/development-models).
+## Resumo
 
-## Configure Your Salesforce DX Project
+- Código fonte Apex em `force-app/main/default/classes`.
+- Scripts de execução e exemplos em `scripts/`.
+- Implementa abstração de dados via interface e injeção de dependência.
+- Demonstra uso de exceções customizadas e validação de regras de negócio.
+- Inclui exemplos de polimorfismo com interface `Tributavel` e cálculo de impostos.
 
-The `sfdx-project.json` file contains useful configuration information for your project. See [Salesforce DX Project Configuration](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_ws_config.htm) in the _Salesforce DX Developer Guide_ for details about this file.
+## Principais Classes e Estruturas
 
-## Read All About It
-
-- [Salesforce Extensions Documentation](https://developer.salesforce.com/tools/vscode/)
-- [Salesforce CLI Setup Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm)
-- [Salesforce DX Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_intro.htm)
-- [Salesforce CLI Command Reference](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference.htm)
-
-
- # Apex Training — Projeto de Exemplo (Salesforce DX)
-
-Pequeno projeto de treinamento em Apex com exemplos de cadastro de contas, cálculo de impostos e seguro de vida.
-
-**Resumo**
-- Contém classes de domínio, uma interface `Tributavel`, scripts de Apex e consultas SOQL.
-- Código fonte em `force-app/main/default/classes`; scripts em `scripts/`.
-
-**Quick Start (objetivo)**
-
-**Pré-requisitos**
+- **Conta (abstrata):** Base para contas bancárias, com métodos abstratos e regras de negócio comuns.
+- **ContaCorrente:** Herda de Conta, implementa `Tributavel`, possui taxa e imposto.
+- **ContaPoupanca:** Herda de Conta, regras específicas de taxa.
+- **Tributavel (interface):** Contrato para cálculo de imposto.
+- **SeguroDeVida:** Implementa `Tributavel`, imposto fixo.
+- **CalculadoraDeImpostos:** Soma impostos de objetos `Tributavel` (polimorfismo).
+- **CadastroDeContas:** Gerencia contas via interface de banco de dados.
+- **BancoDeDadosConta (interface):** Abstrai operações de armazenamento de contas.
+- **BancoDeDadosEmMemoria:** Implementação concreta de armazenamento em memória.
+- **validadorFinanceiro:** Valida valores financeiros, lança exceção se inválido.
+- **SaldoInsuficienteException / ValorIlegalException:** Exceções customizadas para regras de negócio.
 
 ## Diagrama UML das Classes Apex
-
-O diagrama abaixo mostra as principais classes, heranças, implementações e dependências do projeto:
 
 ```mermaid
 classDiagram
@@ -41,7 +34,7 @@ classDiagram
 		- Integer numeroDaConta
 		- String nomeDoTitular
 		- Decimal saldo
-		+ Integer totalDeContas
+		+ static Integer totalDeContas
 		+ Conta(nomeDoTitular, numeroDaConta)
 		+ getNumeroDaConta()
 		+ depositar(valor)
@@ -74,18 +67,29 @@ classDiagram
 	}
 	class CalculadoraDeImpostos {
 		+ CalculadoraDeImpostos()
-		+ calcularImposto(List<Tributavel> tributaveis)
+		+ calcularImposto(List<Tributavel> t)
 	}
 	class CadastroDeContas {
-		- List<Conta> contas
-		+ CadastroDeContas()
+		- BancoDeDadosConta bancoDeDados
+		+ CadastroDeContas(BancoDeDadosConta)
 		+ adicionarConta(Conta)
 		+ getContas()
 		+ calcularTotaDeTaxa()
 	}
+	class BancoDeDadosConta {
+		<<interface>>
+		+ adicionarConta(Conta)
+		+ getContas()
+	}
+	class BancoDeDadosEmMemoria {
+		- List<Conta> contas
+		+ BancoDeDadosEmMemoria()
+		+ adicionarConta(Conta)
+		+ getContas()
+	}
 	class validadorFinanceiro {
 		+ validadorFinanceiro()
-		+ validarValor(valor)
+		+ static validarValor(valor)
 	}
 	class SaldoInsuficienteException {
 		<<exception>>
@@ -99,43 +103,28 @@ classDiagram
 	SeguroDeVida ..|> Tributavel
 	CalculadoraDeImpostos ..> Tributavel : usa
 	CadastroDeContas o-- Conta : armazena
+	CadastroDeContas o-- BancoDeDadosConta : depende
+	BancoDeDadosEmMemoria ..|> BancoDeDadosConta
 	Conta ..> validadorFinanceiro : usa
 	ContaCorrente ..> SaldoInsuficienteException : lança
 	ContaPoupanca ..> SaldoInsuficienteException : lança
 	validadorFinanceiro ..> ValorIlegalException : lança
 ```
 
-
-
 ---
 
-## Conclusão
+## Observações e Boas Práticas
 
-**Classe abstrata Conta:**
-É uma abstração de conta que será herdada com atributos gerais, com métodos abstratos e com regras de negócios estabelecidas.
+- **Abstração e Injeção de Dependência:** O serviço de cadastro de contas depende de uma interface de banco de dados, facilitando testes e extensibilidade.
+- **Polimorfismo:** O cálculo de impostos é feito via interface, permitindo múltiplas implementações.
+- **Validação e Exceções:** Todas as operações financeiras são validadas e lançam exceções customizadas para regras de negócio.
+- **Organização:** Classes separadas por responsabilidade, facilitando manutenção e entendimento.
 
-**Classe serviço Cadastro de contas:**
-É uma classe que faz o gerenciamento/ciclo de vida de cadastro, deleção, queries e etc. Possui uma problemática: depende especificamente de um "banco de dados" em memória (lista de contas). **Solução:** abstração — a classe deve depender de uma interface que define o banco, e a implementação concreta fornece o armazenamento.
+## Referências Úteis
 
-**Conta Corrente e Poupança:**
-São classes que herdam a classe abstrata Conta e seus métodos, porém com regras de negócios diferentes. Conta Corrente possui taxa e o método imposto, algo que Conta Poupança não possui. Ambos os métodos sobrescrevem os métodos de Conta, porém de formas diferentes.
-
-**Interface Tributavel:**
-Define o contrato para cálculo de imposto. Classes que implementam essa interface devem fornecer sua própria lógica para o método `calcularImposto()`.
-
-**Classe SeguroDeVida:**
-Implementa a interface `Tributavel` e representa um seguro de vida com imposto fixo. Útil para demonstrar polimorfismo no cálculo de impostos.
-
-**Classe CalculadoraDeImpostos:**
-Classe utilitária que recebe uma lista de objetos `Tributavel` e soma os impostos de cada um, demonstrando uso de interface e polimorfismo.
-
-**Classe SaldoInsuficienteException:**
-Exceção personalizada lançada quando uma operação de saque não pode ser realizada por falta de saldo suficiente.
-
-**Classe ValorIlegalException:**
-Exceção personalizada lançada quando um valor inválido (menor ou igual a zero) é informado em operações financeiras.
-
-**Classe validadorFinanceiro:**
-Classe utilitária responsável por validar valores financeiros, lançando exceção do tipo `ValorIlegalException` caso o valor seja inválido (menor ou igual a zero).
+- [Salesforce Extensions Documentation](https://developer.salesforce.com/tools/vscode/)
+- [Salesforce CLI Setup Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm)
+- [Salesforce DX Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_intro.htm)
+- [Salesforce CLI Command Reference](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference.htm)
 
 
