@@ -10,22 +10,40 @@ public with sharing class ContaCorrente extends Conta implements Tributavel {
     }
 
     public override void depositar(Decimal valor) {
-        if (valor > 0) {
+        
+        try {
+            super.depositar(valor);
             this.saldo += valor;
-            System.debug('Valor depositado com sucesso' + this.saldo);
-        }else {
-            System.debug('Valor deve ser maior que zero');
+         
+        } catch (ValorIlegalException valorIlegalException) {
+
+            throw valorIlegalException;
+            
+        } catch (Exception e) {
+            throw new IllegalArgumentException('Erro ao depositar: ' + e.getMessage());
         }
+        
     }
 
     public override void sacar(Decimal valor) {
-
-        if (valor > this.saldo) {
-            throw new SaldoInsuficienteException('Saldo insuficiente para saque de: ' + valor);
-        } else {
+        try {
+            super.sacar(valor);
             this.saldo -= valor;
             System.debug('Valor sacado com sucesso' + this.saldo);
+
+        } catch (ValorIlegalException valorIlegalException)  {
+
+            throw valorIlegalException;
+        
+        } catch (SaldoInsuficienteException saldoInsuficienteException) {
+
+            throw saldoInsuficienteException;
+        } catch (Exception e) {
+
+            throw new IllegalArgumentException('Erro ao sacar: ' + e.getMessage());
         }
+
+
     }
 
     public override Decimal calcularTaxa() {

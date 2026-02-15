@@ -18,10 +18,15 @@ public with sharing abstract class Conta {
 
     public virtual void depositar(Decimal valor){
         validadorFinanceiro.validarValor(valor);
+
     }
 
     public virtual void sacar(Decimal valor){
         validadorFinanceiro.validarValor(valor);
+        
+        if(this.saldo < valor ){
+            throw new SaldoInsuficienteException('Saldo insuficiente para saque de: ' + valor);
+        }
     }
 
     

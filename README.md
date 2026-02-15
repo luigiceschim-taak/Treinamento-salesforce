@@ -29,6 +29,113 @@ Pequeno projeto de treinamento em Apex com exemplos de cadastro de contas, cálc
 **Quick Start (objetivo)**
 
 **Pré-requisitos**
-- **CLI:** Salesforce CLI (`sfdx`) instalado.
-- **Acesso:** Dev Hub habilitado (para Scratch Orgs) ou acesso à org alvo.
-- **Código:** Projeto clonado e classes em `force-app/main/default/classes`.
+
+## Diagrama UML das Classes Apex
+
+O diagrama abaixo mostra as principais classes, heranças, implementações e dependências do projeto:
+
+```mermaid
+classDiagram
+	class Conta {
+		<<abstract>>
+		- Integer numeroDaConta
+		- String nomeDoTitular
+		- Decimal saldo
+		+ Integer totalDeContas
+		+ Conta(nomeDoTitular, numeroDaConta)
+		+ getNumeroDaConta()
+		+ depositar(valor)
+		+ sacar(valor)
+		+ calcularTaxa() *abstract*
+	}
+	class ContaCorrente {
+		+ ContaCorrente(nomeDoTitular, numeroDaConta)
+		+ getNumeroDaConta()
+		+ depositar(valor)
+		+ sacar(valor)
+		+ calcularTaxa()
+		+ calcularImposto()
+	}
+	class ContaPoupanca {
+		+ ContaPoupanca(nomeDoTitular, numeroDaConta)
+		+ getNumeroDaConta()
+		+ depositar(valor)
+		+ sacar(valor)
+		+ calcularTaxa()
+	}
+	class Tributavel {
+		<<interface>>
+		+ calcularImposto()
+	}
+	class SeguroDeVida {
+		- Decimal impostoFixo
+		+ SeguroDeVida()
+		+ calcularImposto()
+	}
+	class CalculadoraDeImpostos {
+		+ CalculadoraDeImpostos()
+		+ calcularImposto(List<Tributavel> tributaveis)
+	}
+	class CadastroDeContas {
+		- List<Conta> contas
+		+ CadastroDeContas()
+		+ adicionarConta(Conta)
+		+ getContas()
+		+ calcularTotaDeTaxa()
+	}
+	class validadorFinanceiro {
+		+ validadorFinanceiro()
+		+ validarValor(valor)
+	}
+	class SaldoInsuficienteException {
+		<<exception>>
+	}
+	class ValorIlegalException {
+		<<exception>>
+	}
+	ContaCorrente --|> Conta
+	ContaCorrente ..|> Tributavel
+	ContaPoupanca --|> Conta
+	SeguroDeVida ..|> Tributavel
+	CalculadoraDeImpostos ..> Tributavel : usa
+	CadastroDeContas o-- Conta : armazena
+	Conta ..> validadorFinanceiro : usa
+	ContaCorrente ..> SaldoInsuficienteException : lança
+	ContaPoupanca ..> SaldoInsuficienteException : lança
+	validadorFinanceiro ..> ValorIlegalException : lança
+```
+
+
+
+---
+
+## Conclusão
+
+**Classe abstrata Conta:**
+É uma abstração de conta que será herdada com atributos gerais, com métodos abstratos e com regras de negócios estabelecidas.
+
+**Classe serviço Cadastro de contas:**
+É uma classe que faz o gerenciamento/ciclo de vida de cadastro, deleção, queries e etc. Possui uma problemática: depende especificamente de um "banco de dados" em memória (lista de contas). **Solução:** abstração — a classe deve depender de uma interface que define o banco, e a implementação concreta fornece o armazenamento.
+
+**Conta Corrente e Poupança:**
+São classes que herdam a classe abstrata Conta e seus métodos, porém com regras de negócios diferentes. Conta Corrente possui taxa e o método imposto, algo que Conta Poupança não possui. Ambos os métodos sobrescrevem os métodos de Conta, porém de formas diferentes.
+
+**Interface Tributavel:**
+Define o contrato para cálculo de imposto. Classes que implementam essa interface devem fornecer sua própria lógica para o método `calcularImposto()`.
+
+**Classe SeguroDeVida:**
+Implementa a interface `Tributavel` e representa um seguro de vida com imposto fixo. Útil para demonstrar polimorfismo no cálculo de impostos.
+
+**Classe CalculadoraDeImpostos:**
+Classe utilitária que recebe uma lista de objetos `Tributavel` e soma os impostos de cada um, demonstrando uso de interface e polimorfismo.
+
+**Classe SaldoInsuficienteException:**
+Exceção personalizada lançada quando uma operação de saque não pode ser realizada por falta de saldo suficiente.
+
+**Classe ValorIlegalException:**
+Exceção personalizada lançada quando um valor inválido (menor ou igual a zero) é informado em operações financeiras.
+
+**Classe validadorFinanceiro:**
+Classe utilitária responsável por validar valores financeiros, lançando exceção do tipo `ValorIlegalException` caso o valor seja inválido (menor ou igual a zero).
+
+
