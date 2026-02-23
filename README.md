@@ -27,6 +27,8 @@ Este repositório contém exercícios práticos para treinamento em Salesforce A
 
 - **InsertatBeginning.apex**: O exercício pede para inserir um elemento no início de uma lista sem criar listas auxiliares, visando O(1) de espaço. No entanto, a operação de adicionar no início (`add(0, ...)`) em listas do Apex desloca todos os elementos subsequentes, resultando em complexidade O(n) de tempo. O comentário no código destaca essa limitação inerente à estrutura de listas.
 
+- **CasesByType.apex**: Existem diferentes formas de resolver o agrupamento de casos por tipo. Uma abordagem utiliza o método `containsKey` para verificar se a chave já existe no mapa antes de adicionar o caso à lista correspondente, criando uma nova lista se necessário. Outra forma utiliza o operador de coalescência nula (`??`), que simplifica o código ao atribuir uma nova lista apenas quando a chave ainda não existe, tornando a lógica mais concisa e legível. Ambas as soluções são válidas, mas o uso do operador `??` pode tornar o código mais limpo e menos propenso a erros, especialmente em cenários onde a inicialização condicional de coleções é frequente.
+
 ---
 
 **Data do ambiente:** 20 de fevereiro de 2026
